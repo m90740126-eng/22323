@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>كم تعرف راشد؟ 🎯</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(160deg, #E4F0FE 0%, #c7e0ff 40%, #a8cfff 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 16px;
+  }
+
+  /* خلفية متحركة */
+  .bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.5;
+    animation: float 10s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob-1 { width: 280px; height: 280px; background: #ff9ecb; top: -90px; right: -90px; }
+  .blob-2 { width: 240px; height: 240px; background: #9ecbff; bottom: -70px; left: -70px; animation-delay: 3s; }
+  .blob-3 { width: 180px; height: 180px; background: #ffe29e; top: 45%; left: 5%; animation-delay: 6s; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(25px, -25px) scale(1.15); }
+  }
+
+  /* البطاقة الرئيسية */
+  .app-card {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(24px);
+    border-radius: 32px;
+    padding: 36px 28px;
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 25px 70px rgba(100, 150, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* شارة المالك */
+  .owner-badge {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5a7fb8;
+    background: rgba(228, 240, 254, 0.95);
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 12px rgba(100, 150, 255, 0.18);
+    border: 1px solid rgba(122, 156, 255, 0.2);
+  }
+  .owner-badge span { color: #ff6fa5; font-weight: 800; }
+
+  /* الشعار */
+  .logo {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff6fa5, #7a9cff, #5ad2c8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    background-size: 200% 200%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #8899bb;
+    margin-bottom: 26px;
+    line-height: 1.7;
+  }
+
+  /* الأزرار */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 18px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin-bottom: 12px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #ff6fa5, #7a9cff);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(255, 111, 165, 0.35);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255, 111, 165, 0.45); }
+  .btn-primary:active { transform: translateY(0) scale(0.98); }
+
+  .btn-secondary {
+    background: rgba(228, 240, 254, 0.9);
+    color: #5a7fb8;
+    box-shadow: 0 4px 14px rgba(100, 150, 255, 0.15);
+  }
+  .btn-secondary:hover { background: rgba(210, 228, 255, 0.95); transform: translateY(-2px); }
+
+  /* حقل الإدخال */
+  .input-field {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid rgba(122, 156, 255, 0.25);
+    border-radius: 18px;
+    font-size: 16px;
+    font-family: inherit;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    color: #3d5a80;
+    margin-bottom: 16px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    outline: none;
+  }
+  .input-field:focus {
+    border-color: #7a9cff;
+    box-shadow: 0 0 0 4px rgba(122, 156, 255, 0.15);
+  }
+  .input-field::placeholder { color: #a0b0cc; }
+
+  /* شريط التقدم العلوي */
+  .top-progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(122, 156, 255, 0.12);
+    border-radius: 50px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .top-progress-fill {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #ff6fa5, #7a9cff);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: 12px;
+    color: #8899bb;
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+
+  /* شاشة اللعب */
+  .question-box {
+    background: rgba(228, 240, 254, 0.7);
+    border-radius: 20px;
+    padding: 22px 18px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(122, 156, 255, 0.2);
+  }
+  .question-text {
+    font-size: 17px;
+    font-weight: 700;
+    color: #3d5a80;
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+  .option-btn {
+    display: block;
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border: 2px solid rgba(122, 156, 255, 0.2);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #3d5a80;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: right;
+  }
+  .option-btn:hover {
+    border-color: #7a9cff;
+    background: rgba(228, 240, 254, 0.9);
+    transform: translateX(-4px);
+  }
+  .option-btn.selected {
+    border-color: #ff6fa5;
+    background: linear-gradient(135deg, rgba(255, 111, 165, 0.15), rgba(122, 156, 255, 0.15));
+    color: #ff4d8d;
+  }
+
+  /* النتيجة */
+  .result-emoji { font-size: 64px; margin-bottom: 12px; animation: pop 0.6s ease; }
+  @keyframes pop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  .result-title { font-size: 24px; font-weight: 800; color: #3d5a80; margin-bottom: 10px; }
+  .result-desc { font-size: 15px; color: #8899bb; margin-bottom: 22px; line-height: 1.7; }
+  .score-display {
+    font-size: 40px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff6fa5, #7a9cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  /* نجوم الزينة */
+  .sparkle {
+    position: absolute;
+    font-size: 16px;
+    animation: twinkle 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .s1 { top: 18px; left: 22px; }
+  .s2 { top: 28px; right: 28px; animation-delay: 0.5s; }
+  .s3 { bottom: 22px; left: 32px; animation-delay: 1s; }
+  .s4 { bottom: 30px; right: 22px; animation-delay: 1.5s; }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* إخفاء/إظهار الشاشات */
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* شاشة التحميل */
+  .loader-wrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+  }
+  .loader-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 5px solid rgba(122, 156, 255, 0.15);
+    border-top-color: #7a9cff;
+    border-right-color: #ff6fa5;
+    animation: spin 1s linear infinite;
+  }
+  .loader-inner {
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fff, #f0f6ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: inset 0 2px 10px rgba(100, 150, 255, 0.15);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #3d5a80;
+    margin-bottom: 8px;
+  }
+  .loading-text .dots span {
+    display: inline-block;
+    animation: bounce 1.4s infinite;
+    color: #ff6fa5;
+  }
+  .loading-text .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-text .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(122, 156, 255, 0.12);
+    border-radius: 50px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #ff6fa5, #7a9cff, #5ad2c8);
+    background-size: 200% 100%;
+    animation: fillBar 3s ease-in-out infinite, gradientMove 2s linear infinite;
+  }
+  @keyframes fillBar {
+    0% { width: 0%; }
+    50% { width: 75%; }
+    100% { width: 100%; }
+  }
+  @keyframes gradientMove {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+  }
+
+  .correct-feedback {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    display: none;
+  }
+  .correct { background: rgba(90, 210, 200, 0.2); color: #2a9d8f; }
+  .wrong { background: rgba(255, 111, 165, 0.2); color: #ff4d8d; }
+</style>
+</head>
+<body>
+
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <div class="app-card">
+    <div class="sparkle s1">✦</div>
+    <div class="sparkle s2">✧</div>
+    <div class="sparkle s3">✦</div>
+    <div class="sparkle s4">✧</div>
+
+    <div class="owner-badge">اختبار عن <span>راشد</span> 🎯</div>
+
+    <!-- الشاشة 1: الترحيب -->
+    <div class="screen active" id="screen-home">
+      <div class="logo">كم تعرف راشد؟</div>
+      <div class="subtitle">
+        هل تعرف راشد حقاً؟ 🤔<br>
+        أجب على 7 أسئلة واكتشف النتيجة!
+      </div>
+      <button class="btn btn-primary" onclick="startGame()">ابدأ الاختبار 🚀</button>
+    </div>
+
+    <!-- الشاشة 2: التحميل -->
+    <div class="screen" id="screen-loading">
+      <div class="loader-wrap">
+        <div class="loader-ring"></div>
+        <div class="loader-inner">🎯</div>
+      </div>
+      <div class="loading-text">
+        جاري التحميل
+        <span class="dots"><span>.</span><span>.</span><span>.</span></span>
+      </div>
+      <div class="subtitle">لحظات قليلة وتبدأ الأسئلة</div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- الشاشة 3: إدخال الاسم -->
+    <div class="screen" id="screen-name">
+      <div class="logo">من أنت؟</div>
+      <div class="subtitle">أدخل اسمك لنبدأ الاختبار</div>
+      <input type="text" class="input-field" id="playerName" placeholder="اكتب اسمك هنا..." maxlength="20">
+      <button class="btn btn-primary" onclick="submitName()">التالي ➡️</button>
+    </div>
+
+    <!-- الشاشة 4: الأسئلة -->
+    <div class="screen" id="screen-quiz">
+      <div class="top-progress">
+        <div class="top-progress-fill" id="quizProgress"></div>
+      </div>
+      <div class="progress-text" id="progressText">السؤال 1 من 7</div>
+      <div class="question-box">
+        <div class="question-text" id="questionText">السؤال هنا</div>
+        <div id="optionsContainer"></div>
+      </div>
+      <div class="correct-feedback" id="feedback"></div>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="display:none;">السؤال التالي ➡️</button>
+    </div>
+
+    <!-- الشاشة 5: النتيجة -->
+    <div class="screen" id="screen-result">
+      <div class="result-emoji" id="resultEmoji">😱</div>
+      <div class="score-display" id="scoreDisplay">0 / 7</div>
+      <div class="result-title" id="resultTitle">النتيجة</div>
+      <div class="result-desc" id="resultDesc">وصف النتيجة</div>
+      <button class="btn btn-primary" onclick="restartGame()">🔄 إعادة اللعب</button>
+      <button class="btn btn-secondary" onclick="showScreen('screen-home')">🏠 القائمة الرئيسية</button>
+    </div>
+  </div>
+
+<script>
+  // ====== بيانات الأسئلة عن راشد ======
+  const questions = [
+    {
+      q: "ماذا يحب راشد؟ 💻",
+      options: ["كرة القدم", "البرمجة", "الطبخ", "الرسم"],
+      correct: 1
+    },
+    {
+      q: "ما هي الرياضة التي يحبها راشد؟ ⚽",
+      options: ["السباحة", "كرة السلة", "كرة الطائرة + القدم", "التنس"],
+      correct: 2
+    },
+    {
+      q: "ما هي وجبة راشد المفضلة؟ 🍔",
+      options: ["البيتزا", "الشاورما", "البرغر", "المندي"],
+      correct: 1
+    },
+    {
+      q: "هل راشد يحب النوم كثيراً؟ 😴",
+      options: ["نعم يحب النوم كثيراً", "لا ما يحب ينام", "ينام فقط في الليل", "ينام 4 ساعات فقط"],
+      correct: 0
+    },
+    {
+      q: "ما هو لون راشد المفضل؟ 🎨",
+      options: ["الأحمر", "الأزرق", "الأخضر", "الأسود"],
+      correct: 1
+    },
+    {
+      q: "ما هي هواية راشد الأخرى بجانب البرمجة؟ 🎮",
+      options: ["القراءة", "الألعاب الإلكترونية", "الرياضة", "السفر"],
+      correct: 1
+    },
+    {
+      q: "كيف يصف راشد نفسه؟ 🌟",
+      options: ["شخص هادئ", "شخص مرح ونشيط", "شخص جاد دائماً", "شخص خجول"],
+      correct: 1
+    }
+  ];
+
+  let currentQ = 0;
+  let score = 0;
+  let playerName = "";
+  let selectedOption = null;
+  let answered = false;
+
+  // ====== التنقل بين الشاشات ======
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ====== بدء اللعبة ======
+  function startGame() {
+    showScreen('screen-loading');
+    setTimeout(() => {
+      showScreen('screen-name');
+    }, 2500);
+  }
+
+  // ====== إرسال الاسم ======
+  function submitName() {
+    const nameInput = document.getElementById('playerName');
+    playerName = nameInput.value.trim();
+    if (!playerName) {
+      nameInput.style.borderColor = '#ff6fa5';
+      nameInput.placeholder = 'الرجاء إدخال اسمك!';
+      return;
+    }
+    currentQ = 0;
+    score = 0;
+    showScreen('screen-quiz');
+    loadQuestion();
+  }
+
+  // ====== تحميل السؤال ======
+  function loadQuestion() {
+    selectedOption = null;
+    answered = false;
+    const q = questions[currentQ];
+
+    document.getElementById('questionText').textContent = q.q;
+    document.getElementById('progressText').textContent = `السؤال ${currentQ + 1} من ${questions.length}`;
+    document.getElementById('quizProgress').style.width = ((currentQ) / questions.length) * 100 + '%';
+
+    const container = document.getElementById('optionsContainer');
+    container.innerHTML = '';
+
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = opt;
+      btn.onclick = () => selectOption(i, btn);
+      container.appendChild(btn);
+    });
+
+    document.getElementById('nextBtn').style.display = 'none';
+    const feedback = document.getElementById('feedback');
+    feedback.style.display = 'none';
+    feedback.className = 'correct-feedback';
+  }
+
+  // ====== اختيار إجابة ======
+  function selectOption(index, btn) {
+    if (answered) return;
+    answered = true;
+
+    const q = questions[currentQ];
+    const allBtns = document.querySelectorAll('.option-btn');
+    allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+    const feedback = document.getElementById('feedback');
+
+    if (index === q.correct) {
+      score++;
+      btn.classList.add('selected');
+      btn.style.borderColor = '#5ad2c8';
+      btn.style.background = 'rgba(90, 210, 200, 0.2)';
+      feedback.textContent = '✅ إجابة صحيحة! أحسنت';
+      feedback.className = 'correct-feedback correct';
+    } else {
+      btn.style.borderColor = '#ff6fa5';
+      btn.style.background = 'rgba(255, 111, 165, 0.2)';
+      allBtns[q.correct].style.borderColor = '#5ad2c8';
+      allBtns[q.correct].style.background = 'rgba(90, 210, 200, 0.2)';
+      feedback.textContent = `❌ إجابة خاطئة! الصحيح: ${q.options[q.correct]}`;
+      feedback.className = 'correct-feedback wrong';
+    }
+    feedback.style.display = 'block';
+
+    document.getElementById('nextBtn').style.display = 'block';
+    document.getElementById('nextBtn').textContent = (currentQ === questions.length - 1) ? 'عرض النتيجة 🏆' : 'السؤال التالي ➡️';
+  }
+
+  // ====== السؤال التالي ======
+  function nextQuestion() {
+    currentQ++;
+    if (currentQ < questions.length) {
+      loadQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  // ====== عرض النتيجة ======
+  function showResult() {
+    const percent = (score / questions.length) * 100;
+
+    let emoji, title, desc;
+    if (percent === 100) {
+      emoji = "🏆";
+      title = "أنت تعرف راشد تماماً!";
+      desc = `${playerName}، أنت أفضل صديق لراشد! تعرفه أكثر من نفسه 😂`;
+    } else if (percent >= 70) {
+      emoji = "😍";
+      title = "أنت تعرف راشد جيداً!";
+      desc = `${playerName}، أنت قريب من راشد وتعرف عنه الكثير! 👏`;
+    } else if (percent >= 40) {
+      emoji = "🤔";
+      title = "تعرف راشد قليلاً";
+      desc = `${playerName}، تحتاج تقضي وقت أكثر مع راشد لتعرفه أكثر! 😉`;
+    } else {
+      emoji = "😅";
+      title = "أنت لا تعرف راشد!";
+      desc = `${playerName}، يبدو أنك لا تعرف راشد جيداً! حان الوقت لتتعرف عليه! 😂`;
+    }
+
+    document.getElementById('resultEmoji').textContent = emoji;
+    document.getElementById('scoreDisplay').textContent = `${score} / ${questions.length}`;
+    document.getElementById('resultTitle').textContent = title;
+    document.getElementById('resultDesc').textContent = desc;
+
+    document.getElementById('quizProgress').style.width = '100%';
+    showScreen('screen-result');
+  }
+
+  // ====== إعادة اللعب ======
+  function restartGame() {
+    currentQ = 0;
+    score = 0;
+    selectedOption = null;
+    answered = false;
+    document.getElementById('playerName').value = '';
+    showScreen('screen-home');
+  }
+
+  // دعم الضغط على Enter
+  document.getElementById('playerName')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') submitName();
+  });
+</script>
+</body>
+</html>
